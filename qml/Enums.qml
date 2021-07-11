@@ -18,6 +18,10 @@ QtObject {
         property color buttonTextNotPressed: "#888888"
         property color buttonBackgroundPressed: "#333333"
         property color buttonBackgroundNotPressed: "transparent"
+
+        property color searchSectionBackground: "#333333"
+        property color searchSectionText: "#838383"
+        property color searchSectionTextInput: "#f0f0f0"
     }
 
     property var spacing: QtObject {

@@ -1,5 +1,6 @@
 import QtQuick 2.15
 import "../components" as Components
+import "../modules" as Modules
 
 Rectangle {
     property Item pressedButton: {
@@ -40,6 +41,23 @@ Rectangle {
             text: "Documentation"
             buttonDown: pressedButton === this
             onClicked: pressedButton = this
+        }
+    }
+
+    Row {
+        height: parent.height
+        anchors{
+            right: parent.right
+        }
+        rightPadding: enums.spacing.std
+        spacing: enums.spacing.std
+
+        Components.SearchSection {
+            id: searchSection
+        }
+
+        Modules.AuthSection {
+            id: authSection
         }
     }
 }

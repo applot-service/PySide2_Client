@@ -15,6 +15,7 @@ Button {
 
     contentItem: Text {
         text: button.text
+        padding: enums.spacing.min
         font {
             pointSize: enums.fontSize.std
             weight: Font.Medium

@@ -27,25 +27,30 @@ Rectangle {
         id: navigationSwipeView
         anchors.fill: parent
         currentIndex: setPage(enums.defaultPage)
+        interactive: false
 
-        Rectangle {
+        Item {
             id: creatorPage
             property string pageType: enums.pageTypes.creator
             property var itemIndex: SwipeView.index
 
-            color: "green"
-            opacity: 0.02
+            Text {
+                anchors.centerIn: parent
+                text: qsTr("CREATOR")
+                color: "white"
+            }
         }
 
-        Rectangle {
+        Item {
             id: docsPage
             property string pageType: enums.pageTypes.docs
             property var itemIndex: SwipeView.index
 
-            color: "blue"
-            opacity: 0.02
-
-            Component.onCompleted: console.log("itemIndex:", itemIndex)
+            Text {
+                anchors.centerIn: parent
+                text: qsTr("DOCS")
+                color: "white"
+            }
         }
     }
 }
