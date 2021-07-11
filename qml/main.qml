@@ -1,6 +1,5 @@
 import QtQuick 2.15
 import QtQuick.Controls 2.15
-import "./pages/" as Pages
 
 ApplicationWindow {
     visible: true
@@ -11,7 +10,7 @@ ApplicationWindow {
     height: 1080
     title: "Applot Editor"
 
-    Pages.Start {
-        id: _start
+    BasePage {
+        id: _basePage
     }
 }
