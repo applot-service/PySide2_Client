@@ -37,4 +37,11 @@ QtObject {
         property real std: 12
         property real max: 16
     }
+
+    property var pageTypes: QtObject {
+        property string creator: "CREATOR"
+        property string docs: "DOCS"
+    }
+
+    property string defaultPage: "DOCS"
 }
