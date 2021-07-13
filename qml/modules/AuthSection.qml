@@ -11,7 +11,7 @@ Item {
 
         anchors.centerIn: parent
         text: "Sign In"
-        buttonDown: pressedButton === this
+        onClicked: authenticationPopup.open()
         Component.onCompleted: {
             signInButton.contentItem.color = enums.colors.buttonTextPressed
         }

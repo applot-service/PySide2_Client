@@ -13,6 +13,8 @@ QtObject {
 
         property color header: "#242424"
         property color body: "#111111"
+        property color popup: "#838383"
+        property color popupBackground: "#60000000"
 
         property color buttonTextPressed: "#f0f0f0"
         property color buttonTextNotPressed: "#888888"
