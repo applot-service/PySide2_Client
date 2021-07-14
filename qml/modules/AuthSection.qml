@@ -11,7 +11,10 @@ Item {
 
         anchors.centerIn: parent
         text: "Sign In"
-        onClicked: authenticationPopup.open()
+        onClicked: {
+            authenticationPopup.open()
+            authenticationPopup.forceActiveFocus()
+        }
         Component.onCompleted: {
             signInButton.contentItem.color = enums.colors.buttonTextPressed
         }
