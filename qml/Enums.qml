@@ -17,6 +17,12 @@ QtObject {
         property color buttonBackgroundPressed: "#333333"
         property color buttonBackgroundNotPressed: "transparent"
 
+        property color stdButtonBackgroundPressed: "#333333"
+        property color stdButtonBackgroundNotPressed: "#2f89fe"
+
+        property color flatButtonBackgroundPressed: "#f0f0f0"
+        property color flatButtonBackgroundNotPressed: "#2f89fe"
+
         property color searchSectionBackground: "#333333"
         property color searchSectionText: "#838383"
         property color searchSectionTextInput: "#f0f0f0"

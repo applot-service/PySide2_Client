@@ -19,7 +19,8 @@ Button {
             pointSize: enums.fontSize.std
             weight: Font.Medium
         }
-        color: enums.colors.buttonTextPressed
+        color: button.buttonDown ? enums.colors.flatButtonBackgroundPressed
+                                 : enums.colors.flatButtonBackgroundNotPressed
         horizontalAlignment: Text.AlignHCenter
         verticalAlignment: Text.AlignVCenter
         elide: Text.ElideRight
@@ -28,21 +29,13 @@ Button {
     background: Rectangle {
         implicitWidth: 100
         implicitHeight: 40
-        color: button.down ? enums.colors.stdButtonBackgroundPressed
-                              : enums.colors.stdButtonBackgroundNotPressed
-        border.color: enums.colors.buttonBackgroundPressed
-        border.width: 0
-        radius: enums.radius.std
+        color: "transparent"
     }
 
     onHoveredChanged: {
         if (hovered) {
             mouseArea.cursorShape = Qt.PointingHandCursor
-            button.background.border.width = 2
-        } else {
-            button.background.border.width = 0
         }
-
     }
     MouseArea { id: mouseArea; anchors.fill: parent; acceptedButtons: Qt.NoButton }
 }

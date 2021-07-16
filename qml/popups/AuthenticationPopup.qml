@@ -6,14 +6,21 @@ import "../components" as Components
 Popup {
     id: authPopup
     anchors.centerIn: parent
+    width: 400
     modal: true
     focus: true
     clip: true
 
     QtObject {
         id: actions
-        property string signIn: "Sign in"
-        property string register: "Register"
+        property var signIn: QtObject {
+            property string title: "Sign in"
+            property string alternativeAction: "Don't have an account? Register now!"
+        }
+        property var register: QtObject {
+            property string title: "Register"
+            property string alternativeAction: "Already have an account? Sign in!"
+        }
     }
 
     property var currentAction: actions.signIn
@@ -36,8 +43,6 @@ Popup {
     }
 
     background: Rectangle {
-        implicitWidth: 400
-        height: contentItem.height + (contentItem.spacing * 2)
         color: enums.colors.popup
         border.width: 1
         border.color: enums.colors.body
@@ -48,26 +53,26 @@ Popup {
         spacing: enums.spacing.std
 
         Components.Title {
-            text: currentAction
-            leftPadding: enums.spacing.std
+            text: currentAction.title
+            anchors.horizontalCenter: parent.horizontalCenter
         }
 
         Components.TextInput {
             defaultText: "First name"
             width: parent.width
-            visible: currentAction == actions.register
+            visible: currentAction === actions.register
         }
 
         Components.TextInput {
             defaultText: "Last name"
             width: parent.width
-            visible: currentAction == actions.register
+            visible: currentAction === actions.register
         }
 
         Components.TextInput {
             defaultText: "Company"
             width: parent.width
-            visible: currentAction == actions.register
+            visible: currentAction === actions.register
         }
 
         Components.TextInput {
@@ -80,10 +85,24 @@ Popup {
             width: parent.width
         }
 
-        Components.Button {
-            text: currentAction
+        Components.FlatButton {
+            text: currentAction.alternativeAction
+            anchors.horizontalCenter: parent.horizontalCenter
 
-            onClicked: currentAction = actions.register
+            onClicked: {
+                if (currentAction === actions.register) {
+                    currentAction = actions.signIn
+                } else {
+                    currentAction = actions.register
+                }
+            }
+        }
+
+        Components.Button {
+            text: currentAction.title
+            anchors.right: parent.right
+
+            onClicked: authPopup.close()
         }
     }
 }
