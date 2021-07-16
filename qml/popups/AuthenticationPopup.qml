@@ -5,7 +5,6 @@ import "../components" as Components
 
 Popup {
     id: authPopup
-    anchors.centerIn: parent
     width: 400
     modal: true
     focus: true

@@ -13,9 +13,11 @@ ApplicationWindow {
 
     BasePage {
         id: _basePage
+        anchors.fill: parent
     }
 
     Popups.AuthenticationPopup {
         id: authenticationPopup
+        anchors.centerIn: parent
     }
 }

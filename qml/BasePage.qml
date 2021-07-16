@@ -7,8 +7,6 @@ Page {
     id: basePage
     signal pageChanged(string page)
 
-    anchors.fill: parent
-
     Enums {
         id: enums
     }
