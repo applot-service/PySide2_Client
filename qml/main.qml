@@ -12,6 +12,10 @@ ApplicationWindow {
     height: 1080
     title: "Applot Editor"
 
+    AuthData {
+        id: auth
+    }
+
     BasePage {
         id: _basePage
         anchors.fill: parent

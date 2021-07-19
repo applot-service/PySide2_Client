@@ -5,6 +5,7 @@ import "../" as Main
 
 Rectangle {
     property string defaultText: "Default"
+    property alias text: textInput.text
 
     Main.Enums {
         id: enums
@@ -17,6 +18,7 @@ Rectangle {
     clip: true
 
     TextInput {
+        id: textInput
         anchors.fill: parent
         verticalAlignment: Text.AlignVCenter
         leftPadding: enums.spacing.std

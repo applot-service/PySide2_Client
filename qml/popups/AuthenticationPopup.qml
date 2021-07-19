@@ -57,29 +57,34 @@ Popup {
         }
 
         Components.TextInput {
+            id: first_name
             defaultText: "First name"
             width: parent.width
             visible: currentAction === actions.register
         }
 
         Components.TextInput {
+            id: last_name
             defaultText: "Last name"
             width: parent.width
             visible: currentAction === actions.register
         }
 
         Components.TextInput {
+            id: company
             defaultText: "Company"
             width: parent.width
             visible: currentAction === actions.register
         }
 
         Components.TextInput {
+            id: email
             defaultText: "Email"
             width: parent.width
         }
 
         Components.TextInput {
+            id: password
             defaultText: "Password"
             width: parent.width
         }
@@ -101,7 +106,23 @@ Popup {
             text: currentAction.title
             anchors.right: parent.right
 
-            onClicked: authPopup.close()
+            onClicked: {
+                if (currentAction === actions.register) {
+                    register(first_name.text, last_name.text, company.text, email.text, password.text)
+                } else {
+                    sign_in(email.text, password.text)
+                }
+
+                authPopup.close()
+            }
         }
+    }
+
+    function register(first_name, last_name, company, email, password) {
+        auth.register(first_name, last_name, company, email, password)
+    }
+
+    function sign_in(email, password) {
+        auth.sign_in(email, password)
     }
 }

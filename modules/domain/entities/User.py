@@ -1,5 +1,9 @@
 from dataclasses import dataclass, field, asdict
-from modules.domain import actions
+from modules.domain.actions import account as account_actions
+
+import jwt
+import bcrypt
+
 from typing import List
 
 
@@ -32,7 +36,7 @@ class Account:
 
     @classmethod
     def sign_in(cls, email: str, password: str) -> "Account":
-        account = actions.account.authenticate(email, password)
+        account = account_actions.authenticate(email, password)
         if account is None:
             raise AccountNotFound
         return cls.from_dict(account)
@@ -40,5 +44,14 @@ class Account:
     def sign_out(self):
         pass
 
-    def register(self):
-        pass
+    @classmethod
+    def register(cls, first_name: str, last_name: str, company: str, email: str, password: str) -> "Account":
+        account = cls(
+            first_name=first_name,
+            last_name=last_name,
+            company=company,
+            email=email,
+            password=bcrypt.hashpwd(password.encode(), bcrypt.gensalt()).decode()
+        )
+        account_actions.register(account)
+        return account
