@@ -8,8 +8,8 @@ if __name__ == "__main__":
     app = QGuiApplication(sys.argv)
     engine = QQmlApplicationEngine()
     engine.quit.connect(app.quit)
+
+    ApplotApplication.InitModules()
+
     engine.load('qml/main.qml')
-
-    ApplotApplication.Base()
-
     sys.exit(app.exec_())

@@ -1,7 +1,8 @@
-from modules.domain.aggregates import Auth
+from modules.domain.aggregates.Auth import Data as AuthData
+from PySide2.QtQml import qmlRegisterType
 
 
-class Base:
+class InitModules:
 
     def __init__(self):
-        self.auth = Auth.Data()
+        qmlRegisterType(AuthData, 'Auth', 1, 0, 'AuthData')

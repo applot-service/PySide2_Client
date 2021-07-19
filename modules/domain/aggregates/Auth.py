@@ -1,8 +1,11 @@
 from modules.domain.entities import User
+from PySide2.QtCore import QObject, Signal, Slot
 
 
-class Data:
-
+class Data(QObject):
     def __init__(self):
-        self.account = User.Account()
-        self.token = None
+        QObject.__init__(self)
+
+    account = User.Account()
+    token = None
+
