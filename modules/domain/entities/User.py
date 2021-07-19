@@ -1,6 +1,6 @@
 from dataclasses import dataclass, field, asdict
-from domain import actions
-from typing import List, Optional
+from modules.domain import actions
+from typing import List
 
 
 class AccountNotFound(Exception):

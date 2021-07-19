@@ -1,4 +1,7 @@
-class ModulesInit:
+from modules.domain.aggregates import Auth
+
+
+class Base:
 
     def __init__(self):
-        print("Started init")
+        self.auth = Auth.Data()

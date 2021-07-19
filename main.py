@@ -10,6 +10,6 @@ if __name__ == "__main__":
     engine.quit.connect(app.quit)
     engine.load('qml/main.qml')
 
-    ApplotApplication.ModulesInit()
+    ApplotApplication.Base()
 
     sys.exit(app.exec_())
