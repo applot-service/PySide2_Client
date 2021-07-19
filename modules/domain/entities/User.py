@@ -1,14 +1,13 @@
 from dataclasses import dataclass, field, asdict
 from modules.domain.actions import account as account_actions
+from modules.errors import (
+    AccountNotFound
+)
 
 import jwt
 import bcrypt
 
 from typing import List
-
-
-class AccountNotFound(Exception):
-    pass
 
 
 @dataclass

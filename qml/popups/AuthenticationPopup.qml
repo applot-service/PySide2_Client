@@ -11,6 +11,13 @@ Popup {
     clip: true
 
     QtObject {
+        id: errors
+        property int status
+        property string type
+        property string message
+    }
+
+    QtObject {
         id: actions
         property var signIn: QtObject {
             property string title: "Sign in"
@@ -112,8 +119,6 @@ Popup {
                 } else {
                     sign_in(email.text, password.text)
                 }
-
-                authPopup.close()
             }
         }
     }
@@ -124,5 +129,14 @@ Popup {
 
     function sign_in(email, password) {
         auth.sign_in(email, password)
+    }
+
+    Connections {
+        target: auth
+        function onResponse(status, type, message) {
+            errors.status = status
+            errors.type = type
+            errors.message = message
+        }
     }
 }
