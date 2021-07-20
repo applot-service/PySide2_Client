@@ -1,6 +1,7 @@
 import QtQuick 2.15
 import QtQuick.Controls 2.15
-import Auth 1.0
+import Authorization 1.0
+
 import "./popups" as Popups
 
 ApplicationWindow {
@@ -8,12 +9,12 @@ ApplicationWindow {
 
     minimumWidth: 960
     minimumHeight: 640
-    width: 1920
-    height: 1080
+    width: 1280
+    height: 720
     title: "Applot Editor"
 
-    AuthData {
-        id: auth
+    AuthorizationData {
+        id: authorization
     }
 
     BasePage {

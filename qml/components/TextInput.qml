@@ -9,6 +9,8 @@ Rectangle {
     property bool error: false
     signal accepted
 
+    onErrorChanged: handling_ErrorOrFocus()
+
     Main.Enums {
         id: enums
     }
@@ -23,15 +25,6 @@ Rectangle {
     clip: false
     focus: true
 
-    onErrorChanged: {
-        if (error) {
-            border.color = enums.colors.red
-        } else {
-            border.color = enums.colors.searchSectionBackground
-        }
-    }
-
-
     TextInput {
         id: textInput
         anchors.fill: parent
@@ -43,14 +36,11 @@ Rectangle {
             weight: Font.Medium
         }
         color: enums.colors.searchSectionTextInput
-        onActiveFocusChanged: {
-            if (focus === true) {
-                parent.border.color = enums.colors.blue
-            } else {
-                parent.border.color = enums.colors.searchSectionBackground
-            }
+        onActiveFocusChanged: handling_ErrorOrFocus()
+        onAccepted: {
+            focus = false
+            parent.accepted()
         }
-        onAccepted: parent.accepted()
 
         Text {
             anchors.fill: parent
@@ -71,5 +61,25 @@ Rectangle {
         id: mouseArea; anchors.fill: parent; acceptedButtons: Qt.NoButton
         hoverEnabled: true
         onEntered: mouseArea.cursorShape = Qt.IBeamCursor
+    }
+
+    function handling_ErrorOrFocus() {
+        if (textInput.focus === true) {
+            border.color = enums.colors.blue
+            return
+        }
+
+        if (textInput.text.length == 0) {
+            border.color = enums.colors.searchSectionBackground
+            return
+        }
+
+        if (error) {
+            border.color = enums.colors.red
+            return
+        } else {
+            border.color = enums.colors.searchSectionBackground
+            return
+        }
     }
 }

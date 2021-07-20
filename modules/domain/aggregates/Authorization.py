@@ -17,11 +17,6 @@ class Data(QObject):
     token = None
 
     response = Signal(int, str, str)  # status_code, response_type, response_message
-    validation_response = Signal(str, bool)  # field_type, is_valid
-
-    @Slot(str, str)
-    def validate_field(self, field: str, value: str):
-        pass
 
     @Slot(str, str)
     def sign_in(self, email: str, password: str):

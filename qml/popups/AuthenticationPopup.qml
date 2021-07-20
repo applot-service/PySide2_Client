@@ -1,5 +1,7 @@
 import QtQuick 2.15
 import QtQuick.Controls 2.15
+import AuthorizationFieldsValidator 1.0
+
 import "../" as Main
 import "../components" as Components
 
@@ -10,13 +12,18 @@ Popup {
     focus: true
     clip: true
 
+    AuthFieldsIsValid {
+        id: authFieldsValidation
+    }
+
     QtObject {
-        id: validated
-        property bool firstName: false
-        property bool lastName: false
-        property bool company: false
-        property bool email: false
-        property bool password: false
+        id: isFieldValid
+
+        property bool first_name
+        property bool last_name
+        property bool company
+        property bool email
+        property bool password
     }
 
     QtObject {
@@ -99,8 +106,8 @@ Popup {
             defaultText: "First name"
             width: parent.width
             visible: currentAction === actions.register
-            error: responses.check("first name")
-            onAccepted: authPopupActionButtonPressed()
+            error: !isFieldValid.firstName
+            onAccepted: authFieldsValidation.validate_first_name(text)
         }
 
         Components.TextInput {
@@ -108,8 +115,8 @@ Popup {
             defaultText: "Last name"
             width: parent.width
             visible: currentAction === actions.register
-            error: responses.check("last name")
-            onAccepted: authPopupActionButtonPressed()
+            error: !isFieldValid.firstName
+            onAccepted: authFieldsValidation.validate_first_name(text)
         }
 
         Components.TextInput {
@@ -117,24 +124,24 @@ Popup {
             defaultText: "Company"
             width: parent.width
             visible: currentAction === actions.register
-            error: responses.check("company")
-            onAccepted: authPopupActionButtonPressed()
+            error: !isFieldValid.firstName
+            onAccepted: authFieldsValidation.validate_first_name(text)
         }
 
         Components.TextInput {
             id: email
             defaultText: "Email"
             width: parent.width
-            error: responses.check("email")
-            onAccepted: authPopupActionButtonPressed()
+            error: !isFieldValid.email
+            onAccepted: authFieldsValidation.validate_email(text)
         }
 
         Components.TextInput {
             id: password
             defaultText: "Password"
             width: parent.width
-            error: responses.check("password")
-            onAccepted: authPopupActionButtonPressed()
+            error: !isFieldValid.password
+            onAccepted: authFieldsValidation.validate_password(text)
         }
 
         Components.FlatButton {
@@ -169,13 +176,9 @@ Popup {
     }
 
     Connections {
-        target: auth
-        function onResponse(status, type, message) {
-            if (status === 200) {
-                authPopup.close()
-                return
-            }
-            responses.set(status, type, message)
+        target: authFieldsValidation
+        function onEmail_changed(value) {
+            isFieldValid.email = value
         }
     }
 }
