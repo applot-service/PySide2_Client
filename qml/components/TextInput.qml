@@ -6,6 +6,8 @@ import "../" as Main
 Rectangle {
     property string defaultText: "Default"
     property alias text: textInput.text
+    property bool error: false
+    signal accepted
 
     Main.Enums {
         id: enums
@@ -13,9 +15,22 @@ Rectangle {
 
     implicitWidth: 250
     implicitHeight: 34
+    border.width: 1.4
+    border.color: enums.colors.searchSectionBackground
+
     color: enums.colors.searchSectionBackground
     radius: enums.radius.std
-    clip: true
+    clip: false
+    focus: true
+
+    onErrorChanged: {
+        if (error) {
+            border.color = enums.colors.red
+        } else {
+            border.color = enums.colors.searchSectionBackground
+        }
+    }
+
 
     TextInput {
         id: textInput
@@ -28,6 +43,14 @@ Rectangle {
             weight: Font.Medium
         }
         color: enums.colors.searchSectionTextInput
+        onActiveFocusChanged: {
+            if (focus === true) {
+                parent.border.color = enums.colors.blue
+            } else {
+                parent.border.color = enums.colors.searchSectionBackground
+            }
+        }
+        onAccepted: parent.accepted()
 
         Text {
             anchors.fill: parent

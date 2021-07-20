@@ -26,6 +26,9 @@ QtObject {
         property color searchSectionBackground: "#333333"
         property color searchSectionText: "#838383"
         property color searchSectionTextInput: "#f0f0f0"
+
+        property color blue: "#2f89fe"
+        property color red: "#FF5C4A"
     }
 
     property var spacing: QtObject {

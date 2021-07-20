@@ -16,18 +16,23 @@ class Data(QObject):
     account = None
     token = None
 
-    response = Signal(int, str, str)  # status_code, response_body
+    response = Signal(int, str, str)  # status_code, response_type, response_message
+    validation_response = Signal(str, bool)  # field_type, is_valid
+
+    @Slot(str, str)
+    def validate_field(self, field: str, value: str):
+        pass
 
     @Slot(str, str)
     def sign_in(self, email: str, password: str):
-
         if not validate.email_format(email):
-            self.response.emit(400, "email", EmailInvalid.message)
+            self.response.emit(400, EmailInvalid.type, EmailInvalid.message)
+            return
+        if not validate.password_policy(password):
+            self.response.emit(400, PasswordNotCompliant.type, PasswordNotCompliant.message)
             return
 
-        if not validate.password_policy(password):
-            self.response.emit(400, "password", PasswordNotCompliant.message)
-            return
+        self.response.emit(102, None, None)
 
         try:
             self.account = User.Account.sign_in(email, password)
@@ -35,7 +40,7 @@ class Data(QObject):
             return
         except AccountNotFound:
             return
-            self.response.emit(404, AccountNotFound.message)
+            self.response.emit(404, AccountNotFound.type, AccountNotFound.message)
 
     @Slot()
     def register(self, first_name: str, last_name: str, company: str, email: str, password: str):

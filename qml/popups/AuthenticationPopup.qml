@@ -11,10 +11,41 @@ Popup {
     clip: true
 
     QtObject {
-        id: errors
-        property int status
-        property string type
-        property string message
+        id: validated
+        property bool firstName: false
+        property bool lastName: false
+        property bool company: false
+        property bool email: false
+        property bool password: false
+    }
+
+    QtObject {
+        id: responses
+        property var status
+        property var type
+        property var message
+
+        function set(status, type, message) {
+            responses.type = type
+            responses.message = message
+            responses.status = status
+        }
+
+        function reset() {
+            status = undefined
+            type = undefined
+            message = undefined
+        }
+
+        function check(type) {
+            if (responses.type === type) {
+                if (responses.status !== 200 || responses.status !== undefined) {
+                    return true
+                }
+            }
+
+            return false
+        }
     }
 
     QtObject {
@@ -68,6 +99,8 @@ Popup {
             defaultText: "First name"
             width: parent.width
             visible: currentAction === actions.register
+            error: responses.check("first name")
+            onAccepted: authPopupActionButtonPressed()
         }
 
         Components.TextInput {
@@ -75,6 +108,8 @@ Popup {
             defaultText: "Last name"
             width: parent.width
             visible: currentAction === actions.register
+            error: responses.check("last name")
+            onAccepted: authPopupActionButtonPressed()
         }
 
         Components.TextInput {
@@ -82,18 +117,24 @@ Popup {
             defaultText: "Company"
             width: parent.width
             visible: currentAction === actions.register
+            error: responses.check("company")
+            onAccepted: authPopupActionButtonPressed()
         }
 
         Components.TextInput {
             id: email
             defaultText: "Email"
             width: parent.width
+            error: responses.check("email")
+            onAccepted: authPopupActionButtonPressed()
         }
 
         Components.TextInput {
             id: password
             defaultText: "Password"
             width: parent.width
+            error: responses.check("password")
+            onAccepted: authPopupActionButtonPressed()
         }
 
         Components.FlatButton {
@@ -113,30 +154,28 @@ Popup {
             text: currentAction.title
             anchors.right: parent.right
 
-            onClicked: {
-                if (currentAction === actions.register) {
-                    register(first_name.text, last_name.text, company.text, email.text, password.text)
-                } else {
-                    sign_in(email.text, password.text)
-                }
-            }
+            onClicked: authPopupActionButtonPressed()
         }
     }
 
-    function register(first_name, last_name, company, email, password) {
-        auth.register(first_name, last_name, company, email, password)
-    }
+    function authPopupActionButtonPressed() {
+        responses.reset()
 
-    function sign_in(email, password) {
-        auth.sign_in(email, password)
+        if (currentAction === actions.register) {
+            auth.register(first_name.text, last_name.text, company.text, email.text, password.text)
+        } else {
+            auth.sign_in(email.text, password.text)
+        }
     }
 
     Connections {
         target: auth
         function onResponse(status, type, message) {
-            errors.status = status
-            errors.type = type
-            errors.message = message
+            if (status === 200) {
+                authPopup.close()
+                return
+            }
+            responses.set(status, type, message)
         }
     }
 }
