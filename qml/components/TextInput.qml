@@ -6,6 +6,7 @@ import "../" as Main
 Rectangle {
     property string defaultText: "Default"
     property alias text: textInput.text
+    property alias errorText: textInputError.text
     property bool error: false
     signal accepted
 
@@ -55,6 +56,27 @@ Rectangle {
             text: defaultText
             visible: parent.text === "" && parent.focus === false
         }
+    }
+
+    Text {
+        id: textInputError
+        anchors {
+            top: parent.bottom
+            topMargin: 1
+            left: parent.left
+            right: parent.right
+        }
+
+        verticalAlignment: Text.AlignVCenter
+        leftPadding: enums.spacing.std
+        rightPadding: enums.spacing.std
+        font {
+            pointSize: enums.fontSize.min
+            weight: Font.Medium
+        }
+        wrapMode: Text.WordWrap
+        color: enums.colors.searchSectionTextInput
+        visible: error
     }
 
     MouseArea {

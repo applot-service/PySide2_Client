@@ -35,6 +35,9 @@ QtObject {
         property real min: 6
         property real std: 12
         property real max: 18
+        property real l_max: 24
+        property real xl_max: 30
+        property real xxl_max: 36
     }
 
     property var radius: QtObject {

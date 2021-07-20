@@ -7,6 +7,7 @@ Button {
 
     text: qsTr("Button")
     height: 34
+    opacity: enabled ? 1.0 : 0.4
 
     Main.Enums {
         id: enums
