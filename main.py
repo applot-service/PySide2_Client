@@ -9,7 +9,7 @@ if __name__ == "__main__":
     engine = QQmlApplicationEngine()
     engine.quit.connect(app.quit)
 
-    ApplotApplication.InitModules()
+    ApplotApplication.InitModules(engine)
 
     engine.load('qml/main.qml')
     sys.exit(app.exec_())

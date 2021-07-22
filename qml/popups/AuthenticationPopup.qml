@@ -1,6 +1,6 @@
 import QtQuick 2.15
 import QtQuick.Controls 2.15
-import AuthorizationFieldsValidator 1.0
+import AuthorizationPopupFields 1.0
 
 import "../" as Main
 import "../components" as Components
@@ -16,18 +16,19 @@ Popup {
         id: enums
     }
 
-    AuthFieldsIsValid {
-        id: authFieldsValidation
+    AuthPopupFields {
+        id: authFields
     }
-
     QtObject {
         id: hasError
 
-        property bool first_name: false
-        property bool last_name: false
-        property bool company: false
-        property bool email: false
-        property bool password: false
+        property bool first_name: authFields.first_name_has_error
+        property bool last_name: authFields.last_name_has_error
+        property bool company: authFields.company_has_error
+        property bool email: authFields.email_has_error
+        property bool password: authFields.password_has_error
+
+        property bool all_fields: authFields.all_fields_have_error
     }
 
     QtObject {
@@ -38,9 +39,6 @@ Popup {
     }
 
     property var currentAction: actions.signIn
-    property bool hasError
-    property string currentErrorMessage
-
     QtObject {
         id: actions
         property var signIn: QtObject {
@@ -87,7 +85,7 @@ Popup {
             width: parent.width
             visible: currentAction === actions.register
             error: hasError.first_name
-            onAccepted: authFieldsValidation.validate_first_name(text)
+            onAccepted: authFields.validate_first_name(text)
         }
 
         Components.TextInput {
@@ -96,7 +94,7 @@ Popup {
             width: parent.width
             visible: currentAction === actions.register
             error: hasError.last_name
-            onAccepted: authFieldsValidation.validate_last_name(text)
+            onAccepted: authFields.validate_last_name(text)
         }
 
         Components.TextInput {
@@ -105,7 +103,7 @@ Popup {
             width: parent.width
             visible: currentAction === actions.register
             error: hasError.company
-            onAccepted: authFieldsValidation.validate_company(text)
+            onAccepted: authFields.validate_company(text)
         }
 
         Components.TextInput {
@@ -114,7 +112,7 @@ Popup {
             width: parent.width
             error: hasError.email
             errorText: fieldErrorMessage.email
-            onAccepted: authFieldsValidation.validate_email(text)
+            onAccepted: authFields.validate_email(text)
         }
 
         Components.TextInput {
@@ -123,7 +121,7 @@ Popup {
             width: parent.width
             error: hasError.password
             errorText: fieldErrorMessage.password
-            onAccepted: authFieldsValidation.validate_password(text)
+            onAccepted: authFields.validate_password(text)
         }
 
         Item {
@@ -147,7 +145,7 @@ Popup {
         Components.Button {
             text: currentAction.title
             anchors.right: parent.right
-            enabled: false
+            enabled: !hasError.all_fields
 
             onClicked: authPopupActionButtonPressed()
         }
@@ -162,57 +160,4 @@ Popup {
             auth.sign_in(email.text, password.text)
         }
     }
-
-    Connections {
-        target: authFieldsValidation
-        function onFirst_name_changed(has_error) {
-            hasError.first_name = has_error
-        }
-
-        function onLast_name_changed(has_error) {
-            hasError.last_name = has_error
-        }
-
-        function onCompany_changed(has_error) {
-            hasError.company = has_error
-        }
-
-        function onEmail_changed(has_error) {
-            hasError.email = has_error
-        }
-
-        function onPassword_changed(has_error) {
-            hasError.password = has_error
-        }
-    }
 }
-
-
-//    QtObject {
-//        id: responses
-//        property var status
-//        property var type
-//        property var message
-
-//        function set(status, type, message) {
-//            responses.type = type
-//            responses.message = message
-//            responses.status = status
-//        }
-
-//        function reset() {
-//            status = undefined
-//            type = undefined
-//            message = undefined
-//        }
-
-//        function check(type) {
-//            if (responses.type === type) {
-//                if (responses.status !== 200 || responses.status !== undefined) {
-//                    return true
-//                }
-//            }
-
-//            return false
-//        }
-//    }
