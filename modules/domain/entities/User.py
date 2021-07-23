@@ -1,13 +1,10 @@
 from dataclasses import dataclass, field, asdict
 from modules.domain.actions import account as account_actions
-from modules.errors import (
-    AccountNotFound
-)
 
 import jwt
 import bcrypt
 
-from typing import List
+from typing import List, Optional
 
 
 @dataclass
@@ -34,17 +31,17 @@ class Account:
         return cls(**source)
 
     @classmethod
-    def sign_in(cls, email: str, password: str) -> "Account":
+    def sign_in(cls, email: str, password: str) -> Optional["Account"]:
         account = account_actions.authenticate(email, password)
-        if account is None:
-            raise AccountNotFound
-        return cls.from_dict(account)
+        if account:
+            return cls.from_dict(account)
+        return None
 
     def sign_out(self):
         pass
 
     @classmethod
-    def register(cls, first_name: str, last_name: str, company: str, email: str, password: str) -> "Account":
+    def register(cls, first_name: str, last_name: str, company: str, email: str, password: str) -> Optional["Account"]:
         account = cls(
             first_name=first_name,
             last_name=last_name,

@@ -1,6 +1,6 @@
 import QtQuick 2.15
 import QtQuick.Controls 2.15
-import AuthorizationPopupFields 1.0
+import Authorization 1.0
 
 import "../" as Main
 import "../components" as Components
@@ -16,19 +16,8 @@ Popup {
         id: enums
     }
 
-    AuthPopupFields {
-        id: authFields
-    }
-    QtObject {
-        id: hasError
-
-        property bool first_name: authFields.first_name_has_error
-        property bool last_name: authFields.last_name_has_error
-        property bool company: authFields.company_has_error
-        property bool email: authFields.email_has_error
-        property bool password: authFields.password_has_error
-
-        property bool all_fields: authFields.all_fields_have_error
+    AuthorizationData {
+        id: authorizationData
     }
 
     QtObject {
@@ -84,8 +73,8 @@ Popup {
             defaultText: "First name"
             width: parent.width
             visible: currentAction === actions.register
-            error: hasError.first_name
-            onAccepted: authFields.validate_first_name(text)
+            error: authorizationData.first_name.error
+            onAccepted: authorizationData.first_name.set(text)
         }
 
         Components.TextInput {
@@ -93,8 +82,8 @@ Popup {
             defaultText: "Last name"
             width: parent.width
             visible: currentAction === actions.register
-            error: hasError.last_name
-            onAccepted: authFields.validate_last_name(text)
+            error: authorizationData.last_name.error
+            onAccepted: authorizationData.last_name.set(text)
         }
 
         Components.TextInput {
@@ -102,26 +91,26 @@ Popup {
             defaultText: "Company"
             width: parent.width
             visible: currentAction === actions.register
-            error: hasError.company
-            onAccepted: authFields.validate_company(text)
+            error: authorizationData.company.error
+            onAccepted: authorizationData.company.set(text)
         }
 
         Components.TextInput {
             id: email
             defaultText: "Email"
             width: parent.width
-            error: hasError.email
+            error: authorizationData.email.error
             errorText: fieldErrorMessage.email
-            onAccepted: authFields.validate_email(text)
+            onAccepted: authorizationData.email.set(text)
         }
 
         Components.TextInput {
             id: password
             defaultText: "Password"
             width: parent.width
-            error: hasError.password
+            error: authorizationData.password.error
             errorText: fieldErrorMessage.password
-            onAccepted: authFields.validate_password(text)
+            onAccepted: authorizationData.password.set(text)
         }
 
         Item {
@@ -145,19 +134,50 @@ Popup {
         Components.Button {
             text: currentAction.title
             anchors.right: parent.right
-            enabled: !hasError.all_fields
+            enabled: checkIfButtonEnabled()
 
             onClicked: authPopupActionButtonPressed()
         }
     }
 
-    function authPopupActionButtonPressed() {
-        responses.reset()
+    function checkIfButtonEnabled() {
+
+        if (currentAction === actions.signIn) {
+            if (!authorizationData.email.validated) {
+                return false
+            }
+            if (!authorizationData.password.validated) {
+                return false
+            }
+        }
 
         if (currentAction === actions.register) {
-            auth.register(first_name.text, last_name.text, company.text, email.text, password.text)
-        } else {
-            auth.sign_in(email.text, password.text)
+            if (!authorizationData.first_name.validated) {
+                return false
+            }
+            if (!authorizationData.last_name.validated) {
+                return false
+            }
+            if (!authorizationData.company.validated) {
+                return false
+            }
+            if (!authorizationData.email.validated) {
+                return false
+            }
+            if (!authorizationData.password.validated) {
+                return false
+            }
         }
+
+        return true
+    }
+
+    function authPopupActionButtonPressed() {
+        if (currentAction === actions.register) {
+            authorizationData.register()
+        } else {
+            authorizationData.sign_in()
+        }
+        authPopup.close()
     }
 }

@@ -38,7 +38,7 @@ Rectangle {
         }
         color: enums.colors.searchSectionTextInput
         onActiveFocusChanged: handling_ErrorOrFocus()
-        onAccepted: {
+        onEditingFinished: {
             focus = false
             parent.accepted()
         }
