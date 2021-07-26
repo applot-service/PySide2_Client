@@ -39,9 +39,9 @@ class Account:
 
     @classmethod
     def sign_in(cls, email: str, password: str) -> Optional["Account"]:
-        account = account_actions.authenticate(email, password)
-        if account:
-            return cls.from_dict(account)
+        account_dict = account_actions.authenticate(email, password)
+        if account_dict:
+            return cls.from_dict(account_dict)
         return None
 
     def sign_out(self):

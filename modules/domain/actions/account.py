@@ -10,7 +10,14 @@ AWS_ENDPOINT_URL = "https://8pvqf6zuri.execute-api.us-east-1.amazonaws.com/Prod/
 
 
 def authenticate(email: str, password: str):
-    print("AUTH", email, password)
+    payload = {
+        "email": email,
+        "password": password
+    }
+
+    url = AWS_ENDPOINT_URL + "auth_user"
+    response = requests.get(url=url, params=payload)
+    print(">>> RESPONSE:", response.json())
 
 
 def register(first_name: str, last_name: str, company: str, email: str, password: str):
