@@ -140,7 +140,7 @@ class Data(QObject):
             self.email.validated,
             self.password.validated
         ]):
-            account = User.Account.register(
+            User.register(
                 self.first_name.value,
                 self.last_name.value,
                 self.company.value,

@@ -11,6 +11,7 @@ ApplicationWindow {
     width: 1280
     height: 720
     title: "Applot Editor"
+    color: "#111111"
 
     BasePage {
         id: _basePage

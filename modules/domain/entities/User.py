@@ -1,10 +1,17 @@
 from dataclasses import dataclass, field, asdict
 from modules.domain.actions import account as account_actions
 
-import jwt
-import bcrypt
-
 from typing import List, Optional
+
+
+def register(first_name: str, last_name: str, company: str, email: str, password: str):
+    account_actions.register(
+        first_name=first_name,
+        last_name=last_name,
+        company=company,
+        email=email,
+        password=password
+    )
 
 
 @dataclass
@@ -39,15 +46,3 @@ class Account:
 
     def sign_out(self):
         pass
-
-    @classmethod
-    def register(cls, first_name: str, last_name: str, company: str, email: str, password: str) -> Optional["Account"]:
-        account = cls(
-            first_name=first_name,
-            last_name=last_name,
-            company=company,
-            email=email,
-            password=bcrypt.hashpwd(password.encode(), bcrypt.gensalt()).decode()
-        )
-        account_actions.register(account)
-        return account
