@@ -1,37 +1,6 @@
 from PySide2.QtCore import QObject, Signal, Slot, Property
 from dataclasses import dataclass, field
-from modules.domain.entities import User
 from modules.utilities import validate
-
-
-def validate_first_name(value: str):
-    error = not bool(value)
-    empty = not bool(value)
-    return error, empty
-
-
-def validate_last_name(value: str):
-    error = not bool(value)
-    empty = not bool(value)
-    return error, empty
-
-
-def validate_company(value: str):
-    error = not bool(value)
-    empty = not bool(value)
-    return error, empty
-
-
-def validate_email(value: str):
-    error = not validate.email_format(value)
-    empty = not bool(value)
-    return error, empty
-
-
-def validate_password(value: str):
-    error = not validate.password_policy(value)
-    empty = not bool(value)
-    return error, empty
 
 
 @dataclass
@@ -41,11 +10,11 @@ class TypeFunction:
 
 
 class FieldTypeValidationMap:
-    first_name = TypeFunction("FIRST_NAME", validate_first_name)
-    last_name = TypeFunction("LAST_NAME", validate_last_name)
-    company = TypeFunction("COMPANY", validate_company)
-    email = TypeFunction("EMAIL", validate_email)
-    password = TypeFunction("PASSWORD", validate_password)
+    first_name = TypeFunction("FIRST_NAME", validate.first_name)
+    last_name = TypeFunction("LAST_NAME", validate.last_name)
+    company = TypeFunction("COMPANY", validate.company)
+    email = TypeFunction("EMAIL", validate.email)
+    password = TypeFunction("PASSWORD", validate.password)
 
 
 class Field(QObject):
@@ -119,34 +88,6 @@ class Data(QObject):
 
     def get_password(self):
         return self._password
-
-    @Slot()
-    def sign_in(self):
-        if all([
-            self.email.validated,
-            self.password.validated
-                ]):
-            account = User.Account.sign_in(
-                self.email.value,
-                self.password.value
-            )
-
-    @Slot()
-    def register(self):
-        if all([
-            self.first_name.validated,
-            self.last_name.validated,
-            self.company.validated,
-            self.email.validated,
-            self.password.validated
-        ]):
-            User.register(
-                self.first_name.value,
-                self.last_name.value,
-                self.company.value,
-                self.email.value,
-                self.password.value
-            )
 
     first_name_changed = Signal(Field)
     last_name_changed = Signal(Field)

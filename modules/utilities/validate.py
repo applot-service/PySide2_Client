@@ -1,7 +1,7 @@
 import re
 
 
-def email_format(email: str) -> bool:
+def email_format(value: str) -> bool:
     r"""
     Description of regular expression:
     Local part:
@@ -18,14 +18,14 @@ def email_format(email: str) -> bool:
     """
     regex = r"^[\w!#$%&‘*+–\/=?^_`.{|}~]+[@]([a-zA-Z\d][a-zA-Z\d-]+[a-zA-Z\d]\.)+([a-zA-Z\d]*[a-zA-Z][a-zA-Z\d]*)$"
 
-    email_parts = email.split("@")
+    email_parts = value.split("@")
     if len(email_parts) != 2 or len(email_parts[0]) > 64 or len(email_parts[1]) > 255:
         return False
 
-    return bool(re.search(regex, email))
+    return bool(re.search(regex, value))
 
 
-def password_policy(password: str) -> bool:
+def password_policy(value: str) -> bool:
     """
     Check if given password is compliant with the OWASP Security standards
     """
@@ -38,5 +38,35 @@ def password_policy(password: str) -> bool:
         lambda s: any(x.isdigit() for x in s),
         lambda s: any(x in owasp_special_characters for x in s)
     ]
-    rules_score = sum([rule(password) for rule in complexity_rules])
-    return rules_score >= 3 and 10 <= len(password) <= 128
+    rules_score = sum([rule(value) for rule in complexity_rules])
+    return rules_score >= 3 and 10 <= len(value) <= 128
+
+
+def first_name(value: str):
+    error = not bool(value)
+    empty = not bool(value)
+    return error, empty
+
+
+def last_name(value: str):
+    error = not bool(value)
+    empty = not bool(value)
+    return error, empty
+
+
+def company(value: str):
+    error = not bool(value)
+    empty = not bool(value)
+    return error, empty
+
+
+def email(value: str):
+    error = not email_format(value)
+    empty = not bool(value)
+    return error, empty
+
+
+def password(value: str):
+    error = not password_policy(value)
+    empty = not bool(value)
+    return error, empty

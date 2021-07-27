@@ -6,7 +6,7 @@ import jwt
 import bcrypt
 
 # AWS_ENDPOINT_URL = os.getenv('AWS_ENDPOINT_URL')
-AWS_ENDPOINT_URL = "https://8pvqf6zuri.execute-api.us-east-1.amazonaws.com/Prod/"
+AWS_ENDPOINT_URL = "https://7h3d407kkg.execute-api.us-east-1.amazonaws.com/Prod/"
 
 
 def authenticate(email: str, password: str):
@@ -17,7 +17,7 @@ def authenticate(email: str, password: str):
 
     url = AWS_ENDPOINT_URL + "auth_user"
     response = requests.get(url=url, params=payload)
-    print(">>> RESPONSE:", response.json())
+    print("[X] RESPONSE:", response.json())
 
 
 def register(first_name: str, last_name: str, company: str, email: str, password: str):
@@ -31,4 +31,4 @@ def register(first_name: str, last_name: str, company: str, email: str, password
 
     url = AWS_ENDPOINT_URL + "create_user"
     response = requests.put(url=url, data=json.dumps(payload))
-    print(">>> RESPONSE:", response.json(), response.status_code)
+    print("[X] RESPONSE:", response.json(), response.status_code)
