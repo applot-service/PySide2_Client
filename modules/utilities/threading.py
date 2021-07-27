@@ -1,18 +1,37 @@
-from threading import Thread
-from concurrent.futures import Future
+import sys
+import traceback
+
+from PySide2.QtCore import *
 
 
-def call_with_future(fn, future, args, kwargs):
-    try:
-        result = fn(*args, **kwargs)
-        future.set_result(result)
-    except Exception as exc:
-        future.set_exception(exc)
+class WorkerSignals(QObject):
+    finished = Signal()
+    error = Signal(tuple)
+    result = Signal(object)
+    progress = Signal(int)
 
 
-def thread(fn):
-    def wrapper(*args, **kwargs):
-        future = Future()
-        Thread(target=call_with_future, args=(fn, future, args, kwargs)).start()
-        return future
-    return wrapper
+class Worker(QRunnable):
+
+    def __init__(self, fn, *args, **kwargs):
+        super(Worker, self).__init__()
+
+        self.fn = fn
+        self.args = args
+        self.kwargs = kwargs
+        self.signals = WorkerSignals()
+
+        self.kwargs['progress_callback'] = self.signals.progress
+
+    @Slot()
+    def run(self):
+        try:
+            result = self.fn(*self.args, **self.kwargs)
+        except:
+            traceback.print_exc()
+            exc_type, value = sys.exc_info()[:2]
+            self.signals.error.emit((exc_type, value, traceback.format_exc()))
+        else:
+            self.signals.result.emit(result)
+        finally:
+            self.signals.finished.emit()

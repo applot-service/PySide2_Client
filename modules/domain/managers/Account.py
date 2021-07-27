@@ -1,12 +1,32 @@
 from PySide2.QtCore import QObject, Signal, Slot, Property
 from modules.domain.entities import User
-from modules.utilities.threading import thread
+from modules.utilities.threading import Worker
+
+
+def _sign_in(email: str, password: str):
+    return User.Account.sign_in(
+        email,
+        password
+    )
+
+
+def _register(first_name: str, last_name: str,
+              company: str, email: str, password: str):
+    return User.register(
+        first_name,
+        last_name,
+        company,
+        email,
+        password
+    )
 
 
 class Data(QObject):
-    def __init__(self):
+    def __init__(self, shared_thread_pool):
         QObject.__init__(self)
+        self.thread_pool = shared_thread_pool
         self._token = None
+        self._account = None
 
     def get_token(self):
         return self._password
@@ -16,39 +36,15 @@ class Data(QObject):
     token = Property(str, get_token, notify=token_changed)
 
     # Slots
-    @Slot()
-    def sign_in(self):
-        self._sign_in()
+    @Slot(str, str)
+    def sign_in(self, email: str, password: str):
+        worker = Worker(_sign_in, email=email, password=password)
+        worker.signals.result.connect(self.print_output)
 
-    @Slot()
-    def register(self):
-        self._register()
+        self.thread_pool.start(worker)
 
-    # Threaded actions
-    @thread
-    def _sign_in(self):
-        if all([
-            self.email.validated,
-            self.password.validated
-                ]):
-            account = User.Account.sign_in(
-                self.email.value,
-                self.password.value
-            )
+    @Slot(str, str, str, str, str)
+    def register(self, first_name: str, last_name: str,
+                 company: str, email: str, password: str):
+        pass
 
-    @thread
-    def _register(self):
-        if all([
-            self.first_name.validated,
-            self.last_name.validated,
-            self.company.validated,
-            self.email.validated,
-            self.password.validated
-        ]):
-            User.register(
-                self.first_name.value,
-                self.last_name.value,
-                self.company.value,
-                self.email.value,
-                self.password.value
-            )
