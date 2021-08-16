@@ -1,7 +1,7 @@
 from PySide2.QtCore import QThreadPool
 
-from modules.domain.managers.AuthFields import Data as AuthFields
-from modules.domain.managers.Account import Data as AccountData
+from modules.managers.AuthorizationFields import Data as AuthFieldsData
+from modules.managers.Account import Data as AccountData
 
 
 class Application:
@@ -12,7 +12,7 @@ class Application:
         self.engine = engine
         self.thread_pool = QThreadPool()
 
-        self.auth_fields = AuthFields()
+        self.auth_fields = AuthFieldsData()
         self.account = AccountData(application=self)
 
     def set_context_property(self):
