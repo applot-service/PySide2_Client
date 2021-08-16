@@ -5,10 +5,9 @@ from PySide2.QtCore import *
 
 
 class WorkerSignals(QObject):
+    result = Signal(object)
     finished = Signal()
     error = Signal(tuple)
-    result = Signal(object)
-    progress = Signal(int)
 
 
 class Worker(QRunnable):
@@ -20,8 +19,6 @@ class Worker(QRunnable):
         self.args = args
         self.kwargs = kwargs
         self.signals = WorkerSignals()
-
-        self.kwargs['progress_callback'] = self.signals.progress
 
     @Slot()
     def run(self):

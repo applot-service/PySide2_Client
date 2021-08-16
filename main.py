@@ -9,8 +9,8 @@ if __name__ == "__main__":
     engine = QQmlApplicationEngine()
     engine.quit.connect(app.quit)
 
-    aplt_app = ApplotApplication(engine)
-    aplt_app.set_context_property()
+    applot_app = ApplotApplication(engine)
+    applot_app.set_context_property()
 
     engine.load('qml/main.qml')
     sys.exit(app.exec_())

@@ -22,29 +22,61 @@ def _register(first_name: str, last_name: str,
 
 
 class Data(QObject):
-    def __init__(self, shared_thread_pool):
+    def __init__(self, application):
         QObject.__init__(self)
-        self.thread_pool = shared_thread_pool
+        self.application = application
         self._token = None
-        self._account = None
+        self._account = None  # TODO: implement
 
     def get_token(self):
-        return self._password
+        return self._token
 
     token_changed = Signal(str)
-
     token = Property(str, get_token, notify=token_changed)
 
     # Slots
     @Slot(str, str)
     def sign_in(self, email: str, password: str):
         worker = Worker(_sign_in, email=email, password=password)
-        worker.signals.result.connect(self.print_output)
+        worker.signals.result.connect(self.sign_in_result)
+        worker.signals.finished.connect(self.sign_in_finished)
+        worker.signals.error.connect(self.sign_in_error)
 
-        self.thread_pool.start(worker)
+        self.application.thread_pool.start(worker)
 
     @Slot(str, str, str, str, str)
     def register(self, first_name: str, last_name: str,
                  company: str, email: str, password: str):
-        pass
+        worker = Worker(_register,
+                        first_name=first_name, last_name=last_name,
+                        company=company, email=email, password=password)
+        worker.signals.result.connect(self.register_result)
+        worker.signals.finished.connect(self.register_finished)
+        worker.signals.error.connect(self.register_error)
+
+        self.application.thread_pool.start(worker)
+
+    # Handlers
+    def sign_in_result(self, result):
+        if result:
+            self._token = result.get("token")
+            print("RESULT:", result)
+
+    def sign_in_finished(self):
+        print("FINISHED:")
+
+    def sign_in_error(self, err):
+        print("ERROR:", err)
+
+    def register_result(self, result):
+        if result:
+            self._token = result.get("token")
+            print("RESULT:", result)
+
+    def register_finished(self):
+        print("FINISHED:")
+
+    def register_error(self, err):
+        print("ERROR:", err)
+
 
