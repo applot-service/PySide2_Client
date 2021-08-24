@@ -169,7 +169,13 @@ Popup {
 
     function authPopupActionButtonPressed() {
         if (currentAction === actions.register) {
-            Account.register()
+            Account.register(
+                        AuthFields.first_name.value,
+                        AuthFields.last_name.value,
+                        AuthFields.company.value,
+                        AuthFields.email.value,
+                        AuthFields.password.value
+                        )
         } else {
             Account.sign_in(
                         AuthFields.email.value,

@@ -21,15 +21,17 @@ def _register(first_name: str, last_name: str,
     )
 
 
-class Data(QObject):
+class Manager(QObject):
     def __init__(self, application):
         QObject.__init__(self)
         self.application = application
         self._token = None
-        self._account = None  # TODO: implement
+        self._account = None
 
     def get_token(self):
-        return self._token
+        if self._account:
+            return self._account.token
+        return None
 
     token_changed = Signal(str)
     token = Property(str, get_token, notify=token_changed)
@@ -57,10 +59,10 @@ class Data(QObject):
         self.application.thread_pool.start(worker)
 
     # Handlers
-    def sign_in_result(self, result):
-        if result:
-            self._token = result.get("token")
-            print("RESULT:", result)
+    def sign_in_result(self, account):
+        self._account = None
+        if account:
+            self._account = account
 
     def sign_in_finished(self):
         print("FINISHED:")
@@ -68,10 +70,8 @@ class Data(QObject):
     def sign_in_error(self, err):
         print("ERROR:", err)
 
-    def register_result(self, result):
-        if result:
-            self._token = result.get("token")
-            print("RESULT:", result)
+    def register_result(self):
+        print("REGISTER:")
 
     def register_finished(self):
         print("FINISHED:")

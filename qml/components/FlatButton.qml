@@ -8,10 +8,6 @@ Button {
     text: qsTr("Button")
     height: 34
 
-    Main.Enums {
-        id: enums
-    }
-
     contentItem: Text {
         text: button.text
         padding: enums.spacing.min

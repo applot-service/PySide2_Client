@@ -9,9 +9,7 @@ Button {
     height: 34
     opacity: enabled ? 1.0 : 0.4
 
-    Main.Enums {
-        id: enums
-    }
+    property color backgroundColor: enums.colors.stdButtonBackgroundNotPressed
 
     contentItem: Text {
         text: button.text
@@ -29,19 +27,24 @@ Button {
     background: Rectangle {
         implicitWidth: 100
         implicitHeight: 40
-        color: button.down ? enums.colors.stdButtonBackgroundPressed
-                              : enums.colors.stdButtonBackgroundNotPressed
-        border.color: enums.colors.buttonBackgroundPressed
-        border.width: 0
         radius: enums.radius.std
+        color: backgroundColor
+    }
+
+    onDownChanged: {
+        if (down) {
+            backgroundColor = enums.colors.stdButtonBackgroundPressed
+        } else {
+            backgroundColor = enums.colors.stdButtonBackgroundNotPressed
+        }
     }
 
     onHoveredChanged: {
         if (hovered) {
             mouseArea.cursorShape = Qt.PointingHandCursor
-            button.background.border.width = 2
+            backgroundColor = Qt.lighter(backgroundColor, 1.1)
         } else {
-            button.background.border.width = 0
+            backgroundColor = enums.colors.stdButtonBackgroundNotPressed
         }
 
     }

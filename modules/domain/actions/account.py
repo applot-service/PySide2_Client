@@ -17,7 +17,7 @@ def authenticate(email: str, password: str):
 
     url = AWS_ENDPOINT_URL + "auth_user"
     response = requests.get(url=url, params=payload)
-    print("[X] RESPONSE:", response.json(), response.status_code)
+    return response.json()
 
 
 def register(first_name: str, last_name: str, company: str, email: str, password: str):

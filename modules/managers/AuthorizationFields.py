@@ -62,7 +62,7 @@ class Field(QObject):
     validated = Property(bool, get_validated, notify=validated_changed)
 
 
-class Data(QObject):
+class Manager(QObject):
     def __init__(self):
         QObject.__init__(self)
         self._first_name = Field(FieldTypeValidationMap.first_name)

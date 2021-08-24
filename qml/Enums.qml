@@ -8,7 +8,8 @@ QtObject {
         property color title: "#f0f0f0"
 
         property color header: "#242424"
-        property color body: "#111111"
+        property color body: "#242424"
+        property color light_body: "#333333"
         property color popup: "#4d4d4d"
         property color popupBackground: "#60000000"
 
@@ -17,7 +18,7 @@ QtObject {
         property color buttonBackgroundPressed: "#333333"
         property color buttonBackgroundNotPressed: "transparent"
 
-        property color stdButtonBackgroundPressed: "#333333"
+        property color stdButtonBackgroundPressed: "#4d4d4d"
         property color stdButtonBackgroundNotPressed: "#2f89fe"
 
         property color flatButtonBackgroundPressed: "#f0f0f0"
@@ -26,6 +27,8 @@ QtObject {
         property color searchSectionBackground: "#333333"
         property color searchSectionText: "#838383"
         property color searchSectionTextInput: "#f0f0f0"
+
+        property color projectCardBackground: "#4d4d4d"
 
         property color blue: "#2f89fe"
         property color red: "#FF5C4A"
@@ -38,6 +41,7 @@ QtObject {
         property real l_max: 24
         property real xl_max: 30
         property real xxl_max: 36
+        property real huge: 42
     }
 
     property var radius: QtObject {

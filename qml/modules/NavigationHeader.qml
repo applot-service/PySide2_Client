@@ -18,6 +18,13 @@ Rectangle {
     height: 50
     color: enums.colors.header
 
+    Rectangle {
+        width: parent.width
+        height: 1
+        anchors.bottom: parent.bottom
+        color: enums.colors.light_body
+    }
+
     Row {
         height: parent.height
         leftPadding: enums.spacing.std
@@ -49,10 +56,10 @@ Rectangle {
         anchors{
             right: parent.right
         }
-        rightPadding: enums.spacing.std
-        spacing: enums.spacing.std
+        rightPadding: enums.spacing.xl_max
+        spacing: enums.spacing.max
 
-        Components.SearchSection {
+        Modules.SearchSection {
             id: searchSection
         }
 

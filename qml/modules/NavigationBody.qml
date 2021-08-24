@@ -2,6 +2,7 @@ import QtQuick 2.15
 import QtQuick.Controls 2.15
 import "../components" as Components
 import "../" as Main
+import "../pages" as Pages
 
 
 Rectangle {
@@ -29,16 +30,10 @@ Rectangle {
         currentIndex: setPage(enums.defaultPage)
         interactive: false
 
-        Item {
+        Pages.CreatorPage {
             id: creatorPage
             property string pageType: enums.pageTypes.creator
             property var itemIndex: SwipeView.index
-
-            Text {
-                anchors.centerIn: parent
-                text: qsTr("CREATOR")
-                color: "white"
-            }
         }
 
         Item {
