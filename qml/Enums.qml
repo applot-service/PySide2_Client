@@ -51,9 +51,9 @@ QtObject {
     }
 
     property var fontSize: QtObject {
-        property real min: 10
-        property real std: 12
-        property real max: 16
+        property real min: 9
+        property real std: 11
+        property real max: 15
     }
 
     property var pageTypes: QtObject {
