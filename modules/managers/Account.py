@@ -25,8 +25,8 @@ class Manager(QObject):
     def __init__(self, application):
         QObject.__init__(self)
         self.application = application
-        self._token = None
-        self._email = None
+        self._token = application.settings.value("token")
+        self._email = application.settings.value("email")
         self._account = None
 
     def get_token(self):
@@ -69,12 +69,15 @@ class Manager(QObject):
         if account:
             self._account = account
             self._token = account.token
+            self.application.settings.setValue("token", self._token)
             self.token_changed.emit(self._token)
+
             self._email = account.email
+            self.application.settings.setValue("email", self._email)
             self.email_changed.emit(self._email)
 
     def sign_in_finished(self):
-        print("FINISHED:")
+        pass
 
     def sign_in_error(self, err):
         print("ERROR:", err)
@@ -83,7 +86,7 @@ class Manager(QObject):
         print("REGISTER:")
 
     def register_finished(self):
-        print("FINISHED:")
+        pass
 
     def register_error(self, err):
         print("ERROR:", err)

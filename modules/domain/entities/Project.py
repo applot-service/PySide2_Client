@@ -4,9 +4,9 @@ from dataclasses import dataclass, field, asdict
 @dataclass
 class ProjectInfo:
     project_id: str = field(default=None)
-    title: str = field(default=None)
-    description: str = field(default=None)
-    last_updated: str = field(default=None)
+    title: str = field(default="Project title")
+    description: str = field(default="This is project description...")
+    last_updated: str = field(default="Date when last updated")
     participants: str = field(default=None)
 
     def to_dict(self):
