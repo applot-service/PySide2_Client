@@ -15,7 +15,7 @@ QtObject {
 
         property color buttonTextPressed: "#f0f0f0"
         property color buttonTextNotPressed: "#888888"
-        property color buttonBackgroundPressed: "#333333"
+        property color buttonBackgroundPressed: "#4d4d4d"
         property color buttonBackgroundNotPressed: "transparent"
 
         property color stdButtonBackgroundPressed: "#4d4d4d"
@@ -25,7 +25,8 @@ QtObject {
         property color flatButtonBackgroundNotPressed: "#2f89fe"
 
         property color searchSectionBackground: "#333333"
-        property color searchSectionText: "#838383"
+        property color searchSectionBackgroundActive: "#4d4d4d"
+        property color searchSectionText: "#b3b3b3"
         property color searchSectionTextInput: "#f0f0f0"
 
         property color projectCardBackground: "#4d4d4d"
@@ -61,5 +62,5 @@ QtObject {
         property string docs: "DOCS"
     }
 
-    property string defaultPage: "DOCS"
+    property string defaultPage: "CREATOR"
 }

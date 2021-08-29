@@ -26,15 +26,20 @@ class Manager(QObject):
         QObject.__init__(self)
         self.application = application
         self._token = None
+        self._email = None
         self._account = None
 
     def get_token(self):
-        if self._account:
-            return self._account.token
-        return None
+        return self._token
+
+    def get_email(self):
+        return self._email
 
     token_changed = Signal(str)
+    email_changed = Signal(str)
+
     token = Property(str, get_token, notify=token_changed)
+    email = Property(str, get_email, notify=email_changed)
 
     # Slots
     @Slot(str, str)
@@ -63,6 +68,10 @@ class Manager(QObject):
         self._account = None
         if account:
             self._account = account
+            self._token = account.token
+            self.token_changed.emit(self._token)
+            self._email = account.email
+            self.email_changed.emit(self._email)
 
     def sign_in_finished(self):
         print("FINISHED:")

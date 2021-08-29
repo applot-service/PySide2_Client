@@ -1,27 +1,25 @@
 import QtQuick 2.15
 import QtQuick.Controls 2.15
 import "../components" as Components
-import "../" as Main
 
 Rectangle {
+    id: textInputBackground
     property string defaultText: "Default"
     property alias text: textInput.text
     property alias errorText: textInputError.text
     property bool error: false
     signal accepted
 
-    onErrorChanged: handling_ErrorOrFocus()
+    property color standardColor: enums.colors.searchSectionBackgroundActive
 
-    Main.Enums {
-        id: enums
-    }
+    onErrorChanged: handling_ErrorOrFocus()
 
     implicitWidth: 250
     implicitHeight: 34
     border.width: 1.4
-    border.color: enums.colors.searchSectionBackground
+    border.color: textInputBackground.standardColor
 
-    color: enums.colors.searchSectionBackground
+    color: textInputBackground.standardColor
     radius: enums.radius.std
     clip: false
     focus: true
@@ -92,7 +90,7 @@ Rectangle {
         }
 
         if (textInput.text.length == 0) {
-            border.color = enums.colors.searchSectionBackground
+            border.color = textInputBackground.standardColor
             return
         }
 
@@ -100,7 +98,7 @@ Rectangle {
             border.color = enums.colors.red
             return
         } else {
-            border.color = enums.colors.searchSectionBackground
+            border.color = textInputBackground.standardColor
             return
         }
     }
