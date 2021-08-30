@@ -24,9 +24,11 @@ def _register(first_name: str, last_name: str,
 class Manager(QObject):
     def __init__(self, application):
         QObject.__init__(self)
-        self.application = application
-        self._token = application.settings.value("token")
-        self._email = application.settings.value("email")
+        self._settings = application.settings
+        self._thread_pool = application.thread_pool
+
+        self._token = self._settings.get_account_token()
+        self._email = self._settings.get_account_email()
         self._account = None
 
     def get_token(self):
@@ -49,7 +51,15 @@ class Manager(QObject):
         worker.signals.finished.connect(self.sign_in_finished)
         worker.signals.error.connect(self.sign_in_error)
 
-        self.application.thread_pool.start(worker)
+        self._thread_pool.start(worker)
+
+    @Slot()
+    def sign_out(self):
+        self._settings.remove_account_sign_in_data()
+        self._token = None
+        self._email = None
+        self.token_changed.emit(self._token)
+        self.email_changed.emit(self._email)
 
     @Slot(str, str, str, str, str)
     def register(self, first_name: str, last_name: str,
@@ -61,7 +71,7 @@ class Manager(QObject):
         worker.signals.finished.connect(self.register_finished)
         worker.signals.error.connect(self.register_error)
 
-        self.application.thread_pool.start(worker)
+        self._thread_pool.start(worker)
 
     # Handlers
     def sign_in_result(self, account):
@@ -69,12 +79,12 @@ class Manager(QObject):
         if account:
             self._account = account
             self._token = account.token
-            self.application.settings.setValue("token", self._token)
             self.token_changed.emit(self._token)
 
             self._email = account.email
-            self.application.settings.setValue("email", self._email)
             self.email_changed.emit(self._email)
+
+            self._settings.save_account_sign_in_data(self._token, self._email)
 
     def sign_in_finished(self):
         pass

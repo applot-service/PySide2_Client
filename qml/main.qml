@@ -29,7 +29,11 @@ ApplicationWindow {
         property var token: Account.token
         onTokenChanged: {
             if (token) {
-                authPage.state = "off"
+                authPage.visible = false
+                authPage.state = "fields"
+            } else {
+                authPage.visible = true
+                authPage.state = "fields"
             }
         }
     }

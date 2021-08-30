@@ -9,6 +9,13 @@ Row {
     Image {
         source: "../icons/account_circle_white_24dp.svg"
         anchors.verticalCenter: parent.verticalCenter
+
+        MouseArea {
+            anchors.fill: parent
+            onClicked: {
+                Account.sign_out()
+            }
+        }
     }
 
     Text {

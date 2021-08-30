@@ -6,6 +6,8 @@ from modules.managers.Projects import Manager as ProjectsManager
 
 from modules.models.Projects import ProjectsModel
 
+from modules.domain.actions.settings import SettingsActions
+
 
 class Application:
     engine = None
@@ -14,7 +16,7 @@ class Application:
     def __init__(self, engine):
         self.engine = engine
         self.thread_pool = QThreadPool()
-        self.settings = QSettings("Applot", "applot.tech")
+        self.settings = SettingsActions(QSettings("Applot", "applot.tech"))
 
         # Models
         self.projects_model = ProjectsModel()
