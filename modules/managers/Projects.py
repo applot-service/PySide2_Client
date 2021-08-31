@@ -36,13 +36,20 @@ class Manager(QObject):
 
     # Workers
     def _create_project(self):
-        self.projects_model.create_empty()
+        from datetime import datetime
+        data = {
+            "title": datetime.now().strftime("%H:%M:%S")
+        }
+        print("DATA:", data)
+        self.projects_model.insertRows(position=0, rows=1, data=data)
 
     # Handlers
     def pull_projects_result(self, projects):
-        self._projects_model = None
-        if projects:
-            self._projects_model.repopulate(projects)
+        self._projects_model.clear()
+        if not projects:
+            return
+        for project in projects:
+            self.projects_model.insertRows(position=0, rows=1, data=project)
 
     def pull_projects_finished(self):
         print("FINISHED:")

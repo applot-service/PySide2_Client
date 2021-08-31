@@ -45,16 +45,12 @@ class ProjectsModel(QAbstractListModel):
             if role == ProjectsModel.participants:
                 return self._projects_list[row].participants
 
-    def repopulate(self, projects: list):
-        for project in projects:
-            self._projects_list.append(
-                ProjectInfo.from_dict(project)
-            )
-
-    def create_empty(self):
-        print("BEFORE:", self._projects_list)
-        self.beginInsertRows(QModelIndex(), self.rowCount(), self.rowCount() + 1)
-        self._projects_list.insert(0, ProjectInfo())
+    def insertRows(self, position, rows, data, parent=QModelIndex()):
+        self.beginInsertRows(parent, position, position + rows - 1)
+        for i in range(rows):
+            if data:
+                self._projects_list.insert(position, ProjectInfo.from_dict(data))
+            else:
+                self._projects_list.insert(position, ProjectInfo())
         self.endInsertRows()
-        print("AFTER:", self._projects_list)
-
+        return True
