@@ -1,10 +1,14 @@
 from PySide2.QtCore import QObject, Signal, Slot, Property
-
+from modules.domain.entities import Project
 from modules.utilities.threading import Worker
 
 
 def _get_projects():
     pass
+
+
+def _create_project():
+    Project.BaseProject.create_empty_project()
 
 
 class Manager(QObject):
@@ -42,22 +46,12 @@ class Manager(QObject):
         self.adding_project_in_progress_changed.emit(
             self._adding_project_in_progress
         )
-        worker = Worker(self._create_project)
+        worker = Worker(_create_project)
         worker.signals.result.connect(self.create_project_result)
         worker.signals.finished.connect(self.create_project_finished)
         worker.signals.error.connect(self.create_project_error)
 
         self.thread_pool.start(worker)
-
-    # Workers
-    def _create_project(self):
-        pass
-        # from datetime import datetime
-        # data = {
-        #     "title": datetime.now().strftime("%H:%M:%S")
-        # }
-        # print("DATA:", data)
-        # self.projects_model.insertRows(position=0, rows=1, data=data)
 
     # Handlers
     def pull_projects_result(self, projects):
@@ -74,10 +68,14 @@ class Manager(QObject):
         print("ERROR:", err)
 
     def create_project_result(self):
+        # self.projects_model.insertRows(position=0, rows=1, data=data)
         pass
 
     def create_project_finished(self):
-        print("FINISHED:")
+        self._adding_project_in_progress = False
+        self.adding_project_in_progress_changed.emit(
+            self._adding_project_in_progress
+        )
 
     def create_project_error(self, err):
         print("ERROR:", err)

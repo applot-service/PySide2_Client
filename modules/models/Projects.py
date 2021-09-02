@@ -4,7 +4,7 @@ from PySide2.QtCore import (
     QModelIndex
 )
 
-from modules.domain.entities.Project import Project
+from modules.domain.entities.Project import BaseProject
 
 
 class ProjectsModel(QAbstractListModel):
@@ -49,8 +49,8 @@ class ProjectsModel(QAbstractListModel):
         self.beginInsertRows(parent, position, position + rows - 1)
         for i in range(rows):
             if data:
-                self._projects_list.insert(position, Project.from_dict(data))
+                self._projects_list.insert(position, BaseProject.from_dict(data))
             else:
-                self._projects_list.insert(position, Project())
+                self._projects_list.insert(position, BaseProject())
         self.endInsertRows()
         return True

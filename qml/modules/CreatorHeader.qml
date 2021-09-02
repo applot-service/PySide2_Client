@@ -30,13 +30,20 @@ Rectangle {
         anchors.bottom: parent.bottom
         anchors.right: parent.right
         rightPadding: enums.spacing.huge
-        spacing: enums.spacing.l_max
+        spacing: enums.spacing.min
+
+        Components.BusyIndicator {
+            id: busyIndicator
+            anchors.verticalCenter: parent.verticalCenter
+            visible: Projects.adding_project_in_progress
+        }
 
         Components.Button {
             property string pageType: enums.pageTypes.creator
 
             anchors.verticalCenter: parent.verticalCenter
             text: "New project"
+            enabled: !Projects.adding_project_in_progress
             onClicked: Projects.create_project()
         }
     }

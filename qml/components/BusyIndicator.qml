@@ -3,7 +3,7 @@ import QtQuick.Controls 2.15
 
 BusyIndicator {
     id: control
-    scale: 0.7
+    scale: 0.5
 
     contentItem: Item {
         implicitWidth: 64
