@@ -14,6 +14,18 @@ class Manager(QObject):
         self.token = application.account.token
         self.projects_model = application.projects_model
 
+        self._adding_project_in_progress = False
+
+    def get__adding_project_in_progress(self):
+        return self._adding_project_in_progress
+
+    adding_project_in_progress_changed = Signal(bool)
+
+    adding_project_in_progress = Property(
+        bool, get__adding_project_in_progress,
+        notify=adding_project_in_progress_changed
+    )
+
     # Slots
     @Slot()
     def pull_projects(self):  # Pulling all projects from server
@@ -26,22 +38,26 @@ class Manager(QObject):
 
     @Slot()
     def create_project(self):
-        # worker = Worker(self._create_project)
-        # worker.signals.result.connect(self.create_project_result)
-        # worker.signals.finished.connect(self.create_project_finished)
-        # worker.signals.error.connect(self.create_project_error)
-        #
-        # self.thread_pool.start(worker)
-        self._create_project()
+        self._adding_project_in_progress = True
+        self.adding_project_in_progress_changed.emit(
+            self._adding_project_in_progress
+        )
+        worker = Worker(self._create_project)
+        worker.signals.result.connect(self.create_project_result)
+        worker.signals.finished.connect(self.create_project_finished)
+        worker.signals.error.connect(self.create_project_error)
+
+        self.thread_pool.start(worker)
 
     # Workers
     def _create_project(self):
-        from datetime import datetime
-        data = {
-            "title": datetime.now().strftime("%H:%M:%S")
-        }
-        print("DATA:", data)
-        self.projects_model.insertRows(position=0, rows=1, data=data)
+        pass
+        # from datetime import datetime
+        # data = {
+        #     "title": datetime.now().strftime("%H:%M:%S")
+        # }
+        # print("DATA:", data)
+        # self.projects_model.insertRows(position=0, rows=1, data=data)
 
     # Handlers
     def pull_projects_result(self, projects):
