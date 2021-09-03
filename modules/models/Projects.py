@@ -4,8 +4,6 @@ from PySide2.QtCore import (
     QModelIndex
 )
 
-from modules.domain.entities.Project import BaseProject
-
 
 class ProjectsModel(QAbstractListModel):
     id = Qt.UserRole + 0
@@ -48,9 +46,6 @@ class ProjectsModel(QAbstractListModel):
     def insertRows(self, position, rows, data, parent=QModelIndex()):
         self.beginInsertRows(parent, position, position + rows - 1)
         for i in range(rows):
-            if data:
-                self._projects_list.insert(position, BaseProject.from_dict(data))
-            else:
-                self._projects_list.insert(position, BaseProject())
+            self._projects_list.insert(position, data)
         self.endInsertRows()
         return True

@@ -12,5 +12,5 @@ AWS_ENDPOINT_URL = "https://7h3d407kkg.execute-api.us-east-1.amazonaws.com/Prod/
 def create_empty_project():
     url = AWS_ENDPOINT_URL + "create_project"
     response = requests.put(url=url, data=None)
-    print("[X] CREATE PROJECT RESPONSE:", response, response.json())
+    print("[X] CREATE PROJECT RESPONSE:", response, "JSON:", response.json())
     return response.json()

@@ -8,7 +8,7 @@ def _get_projects():
 
 
 def _create_project():
-    Project.BaseProject.create_empty_project()
+    return Project.BaseProject.create_empty_project()
 
 
 class Manager(QObject):
@@ -67,9 +67,8 @@ class Manager(QObject):
     def pull_projects_error(self, err):
         print("ERROR:", err)
 
-    def create_project_result(self):
-        # self.projects_model.insertRows(position=0, rows=1, data=data)
-        pass
+    def create_project_result(self, project):
+        self.projects_model.insertRows(position=0, rows=1, data=project)
 
     def create_project_finished(self):
         self._adding_project_in_progress = False

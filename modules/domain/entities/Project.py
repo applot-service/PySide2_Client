@@ -1,4 +1,4 @@
-from dataclasses import dataclass, field, asdict
+from dataclasses import dataclass, asdict
 from modules.domain.actions import projects as projects_actions
 from ApplotLibs.DataStructures import Project, Policies
 
@@ -50,12 +50,6 @@ class BaseProject(Project.BaseProject):
                 ) for participant_policies in source.get("participants")
             ] if source.get("participants") else None,
         )
-
-    def __post_init__(self):
-        if not self.title:
-            self.title = "Project title"
-        if not self.description:
-            self.description = "This is project description..."
 
     @classmethod
     def create_empty_project(cls) -> Optional["BaseProject"]:
