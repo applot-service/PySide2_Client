@@ -1,5 +1,5 @@
 from dataclasses import dataclass, asdict
-from modules.domain.actions import account as account_actions
+from modules.Domain.Actions import account as account_actions
 from ApplotLibs.DataStructures import User
 
 from typing import Optional

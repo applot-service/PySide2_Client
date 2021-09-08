@@ -1,5 +1,5 @@
 from dataclasses import dataclass, asdict
-from modules.domain.actions import projects as projects_actions
+from modules.Domain.Actions import projects as projects_actions
 from ApplotLibs.DataStructures import Project, Policies
 
 from typing import Optional

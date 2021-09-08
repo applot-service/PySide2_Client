@@ -185,7 +185,7 @@ Page {
 
     function authPopupActionButtonPressed() {
         if (currentAction === actions.register) {
-            Account.register(
+            AccountManager.register(
                         AuthFields.first_name.value,
                         AuthFields.last_name.value,
                         AuthFields.company.value,
@@ -193,7 +193,7 @@ Page {
                         AuthFields.password.value
                         )
         } else {
-            Account.sign_in(
+            AccountManager.sign_in(
                         AuthFields.email.value,
                         AuthFields.password.value
                         )

@@ -13,14 +13,14 @@ Row {
         MouseArea {
             anchors.fill: parent
             onClicked: {
-                Account.sign_out()
+                AccountManager.sign_out()
             }
         }
     }
 
     Text {
         anchors.verticalCenter: parent.verticalCenter
-        text: Account.email
+        text: AccountData.email
         font {
             pointSize: enums.fontSize.std
             weight: Font.Medium

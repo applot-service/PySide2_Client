@@ -9,11 +9,11 @@ def email_format(value: str) -> bool:
         [\w!#$%&‘*+–/=?^_`.{|}~]{1,64}
     @
     Domain part:
-        Each of domain labels except the last.
+        Each of Domain labels except the last.
         They start and end with alphanumeric while could contain `-` symbol inside
         [a-zA-Z\d][a-zA-Z\d-]+[a-zA-Z\d]\.
 
-        Last domain label. It should contain alphabetic symbol.
+        Last Domain label. It should contain alphabetic symbol.
         [a-zA-Z\d]*[a-zA-Z][a-zA-Z\d]*
     """
     regex = r"^[\w!#$%&‘*+–\/=?^_`.{|}~]+[@]([a-zA-Z\d][a-zA-Z\d-]+[a-zA-Z\d]\.)+([a-zA-Z\d]*[a-zA-Z][a-zA-Z\d]*)$"

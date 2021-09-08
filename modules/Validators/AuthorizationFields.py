@@ -1,6 +1,6 @@
 from PySide2.QtCore import QObject, Signal, Slot, Property
 from dataclasses import dataclass, field
-from modules.utilities import validate
+from modules.Utilities import validate
 
 
 @dataclass
