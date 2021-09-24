@@ -27,7 +27,7 @@ ApplicationWindow {
         id: authPage
         anchors.fill: parent
 
-        property var token: Account.token
+        property var token: AccountData.token
         onTokenChanged: {
             if (token) {
                 authPage.visible = false

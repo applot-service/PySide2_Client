@@ -18,7 +18,6 @@ class Client(QObject):
     def enable_event_handling(self, application):
         self.events_handler = EventsHandler(application=application)
         self.client.open(QUrl("wss://oa6f4xkird.execute-api.us-east-1.amazonaws.com/Prod"))
-        QTimer.singleShot(2000, self.t_post)
         self.pong_timer = QTimer()
         self.pong_timer.setInterval(20000)
         self.pong_timer.timeout.connect(self._ping)
@@ -35,13 +34,7 @@ class Client(QObject):
         self.client.close()
 
     def post(self, command):
-        self.client.sendTextMessage(json.dumps({
-            "action": "send_command",
-            "command": "authorize_user"
-        }))
-
-    def t_post(self):
-        self.client.sendTextMessage(json.dumps({"action": "send_command"}))
+        self.client.sendTextMessage(json.dumps(command.to_dict()))
 
     def _ping(self):
         print("client: Ping")

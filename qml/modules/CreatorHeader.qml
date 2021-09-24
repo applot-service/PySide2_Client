@@ -35,7 +35,7 @@ Rectangle {
         Components.BusyIndicator {
             id: busyIndicator
             anchors.verticalCenter: parent.verticalCenter
-            visible: Projects.adding_project_in_progress
+            visible: ProjectsData.adding_project_in_progress
         }
 
         Components.Button {
@@ -43,8 +43,8 @@ Rectangle {
 
             anchors.verticalCenter: parent.verticalCenter
             text: "New project"
-            enabled: !Projects.adding_project_in_progress
-            onClicked: Projects.create_project()
+            enabled: !ProjectsData.adding_project_in_progress
+            onClicked: ProjectsManager.create_project()
         }
     }
 }
