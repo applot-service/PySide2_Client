@@ -46,7 +46,6 @@ class Client(QObject):
     def _on_received_message(self):
         pass
 
-
     def send_message(self, data):
         print("client: send_message")
         self.client.sendBinaryMessage(data)
